@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: API criscalgar
+  description: API information 
+
+paths:
+  /api/v1/provinces:
+    x-router-controller: provincesController
+    get:
+      description: Returns all provinces
+      operationId: getProvinces
+      responses:
+        200:
+          description: Province list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/province'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+  /api/v1/provinces/{province}:
+    x-router-controller: provincesController
+    get:
+      description: Returns a single province by its province
+      operationId: findByprovince
+      parameters:
+        - required: true
+          name: province
+          description: province of the province to fetch
+          in: path
+          schema:
+            type: string
+      responses:
+        200:
+          description: Province found by province
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/province'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error'
+
+components:
+  schemas:
+    province:
+        type: object
+        required:
+          - province
+        properties:
+          province:
+            type: string
+          year:
+            type: number
+          traveler:
+            type: number
+          overnight_stay:
+            type: number
+          average_stay:
+            type: number
+    error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+      additionalProperties: true
